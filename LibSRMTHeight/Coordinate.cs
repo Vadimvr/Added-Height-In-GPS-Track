@@ -1,17 +1,15 @@
 ﻿using System.Globalization;
 
-namespace Added_Height_In_GPS_Track
+namespace LibSRMTHeight
 {
-    public class LineString
+    public class Coordinate
     {
-        public int extrude { get; set; }
-        public string coordinates { get; set; }
-    }
-
-    public class coordinate
-    {
+        static Dictionary<string, int> filesIsNotExist = new Dictionary<string, int>();
         static Dictionary<string, byte[]> data = new Dictionary<string, byte[]>();
-        public static readonly int maxLengthArray = 1201 * 1201 * 2;
+        static readonly int maxLengthArray = 1201 * 1201 * 2;
+        static readonly string appPath = AppContext.BaseDirectory;
+        static readonly string srtmPath = appPath + "srtm\\";
+
         // широта
         public double Latitude { get; set; }
         // долгота
@@ -35,7 +33,15 @@ namespace Added_Height_In_GPS_Track
             }
             else
             {
-                using (Stream sr = new FileStream(key, FileMode.Open))
+                if (!File.Exists(srtmPath + key))
+                {
+                    if (!filesIsNotExist.ContainsKey(srtmPath + key))
+                    {
+                        filesIsNotExist.Add(srtmPath + key, 0);
+                    }
+                    return;
+                }
+                using (Stream sr = new FileStream(srtmPath + key, FileMode.Open))
                 {
                     using (MemoryStream ms = new MemoryStream())
                     {
@@ -59,19 +65,10 @@ namespace Added_Height_In_GPS_Track
                 Height = 0;
             Height = (value[pos]) << 8 | value[pos + 1];
         }
-    }
-    public static class StreamExtensions
-    {
-        public static byte[] ReadAllBytes(this Stream instream)
-        {
-            if (instream is MemoryStream)
-                return ((MemoryStream)instream).ToArray();
 
-            using (var memoryStream = new MemoryStream())
-            {
-                instream.CopyTo(memoryStream);
-                return memoryStream.ToArray();
-            }
+        public static IEnumerable<string> GetError()
+        {
+            return filesIsNotExist.Select(f => f.Key);
         }
     }
 }
