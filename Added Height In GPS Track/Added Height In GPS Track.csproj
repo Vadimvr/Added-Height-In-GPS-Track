@@ -12,6 +12,9 @@
     <None Update="N53E025.hgt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="N54E026.hgt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="track.kml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

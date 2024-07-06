@@ -1,10 +1,4 @@
-﻿
-
-using System;
-using System.Xml;
-using System.Xml.Serialization;
-using System.IO;
-using System.Globalization;
+﻿using System.Xml.Serialization;
 namespace Added_Height_In_GPS_Track
 {
     public class Test

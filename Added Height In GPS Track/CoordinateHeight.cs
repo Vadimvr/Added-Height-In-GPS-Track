@@ -16,8 +16,7 @@ namespace Added_Height_In_GPS_Track
             double x = 10;
             foreach (coordinate coordinate in coordinateList)
             {
-                coordinate.Height = x;
-                x += 15;
+                coordinate.GetHeight();
             }
             kml.Document.Placemark.LineString.coordinates = coordinateList.Select(x => x.ToString())
                 .Aggregate("", (current, next) => current + " " + next);
