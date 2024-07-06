@@ -9,10 +9,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="N53E025.hgt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <ProjectReference Include="..\LibSRMTHeight\LibSRMTHeight.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="srtm\N53E025.hgt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="srtm\N54E026.hgt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="track.kml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="тест2__20240706_1341.kml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

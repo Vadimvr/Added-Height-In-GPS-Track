@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Added Height In GPS Track", "Added Height In GPS Track\Added Height In GPS Track.csproj", "{42EEB7C6-29DA-4C02-A586-87F464C8EA95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Added Height In GPS Track", "Added Height In GPS Track\Added Height In GPS Track.csproj", "{42EEB7C6-29DA-4C02-A586-87F464C8EA95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{2947EBFE-4C98-4217-B87B-8C07A35503EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{2947EBFE-4C98-4217-B87B-8C07A35503EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSRMTHeight", "LibSRMTHeight\LibSRMTHeight.csproj", "{0A4D81B4-B2DC-4387-B000-1F21E0EA9344}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{2947EBFE-4C98-4217-B87B-8C07A35503EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2947EBFE-4C98-4217-B87B-8C07A35503EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2947EBFE-4C98-4217-B87B-8C07A35503EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A4D81B4-B2DC-4387-B000-1F21E0EA9344}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A4D81B4-B2DC-4387-B000-1F21E0EA9344}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A4D81B4-B2DC-4387-B000-1F21E0EA9344}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A4D81B4-B2DC-4387-B000-1F21E0EA9344}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
