@@ -3,9 +3,9 @@
 namespace LibSRMTHeight
 {
 
-    public class CovertCoordinate
+    internal class CovertCoordinate
     {
-        public static List<Coordinate> ConvertToDoubleCoordinates(string coordinatesString)
+        internal static List<Coordinate> ConvertToDoubleCoordinates(string coordinatesString, Action<string, SystemMessageType> printer)
         {
             return coordinatesString.Trim()
                 .Replace("\t", "")
@@ -20,7 +20,7 @@ namespace LibSRMTHeight
                         Latitude = double.Parse(arr[1], CultureInfo.InvariantCulture),
                         Height = double.Parse(arr[2], CultureInfo.InvariantCulture)
                     };
-                    coordinate.GetHeight();
+                    coordinate.GetHeight(printer);
                     return coordinate;
                 }).ToList();
         }

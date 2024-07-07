@@ -1,7 +1,4 @@
 ﻿using LibSRMTHeight;
-using System.Diagnostics;
-using System.Reflection.Metadata;
-using System.Xml;
 namespace Added_Height_In_GPS_Track
 {
     public class Test
@@ -14,8 +11,15 @@ namespace Added_Height_In_GPS_Track
             int i = 0;
             foreach (var file in allFiles)
             {
-                //var x = file.Substring(file.Length - 4) == ".kml";
-                Worker(file);
+                if (file.Substring(file.Length - 4) == ".kml")
+                {
+                    AddHeightInKML.Worker(file, Message);
+                    i++;
+                }
+                else if (file.Substring(file.Length - 4) == ".kmz")
+                {
+                    i++;
+                }
             }
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine($"added {i}");
@@ -23,50 +27,22 @@ namespace Added_Height_In_GPS_Track
             Console.ReadLine();
         }
 
-        private static void Worker(string path)
+        public static void Message(string message, SystemMessageType type)
         {
-            XmlDocument kml = new XmlDocument();
-            kml.Load(path);
-            XmlNode newNode = kml.CreateElement("name");
-            // oruxmaps track name
-            newNode.InnerXml = $"<![CDATA[{path.Substring(AppContext.BaseDirectory.Length)}]]>";
-
-
-            XmlNodeList doc = kml.GetElementsByTagName("Document");
-            if (doc != null && doc.Count == 1 && doc[0]!=null)
+            switch (type)
             {
-                doc[0]?.AppendChild(newNode);
-            }
-            XmlNodeList elemList = kml.GetElementsByTagName("coordinates");
-            if (elemList == null) return;
-            for (int i = 0; i < elemList.Count; i++)
-            {
-                if (elemList[i] == null || elemList[i].InnerXml == null) { continue; }
-                List<Coordinate> coordinates = CovertCoordinate.ConvertToDoubleCoordinates(elemList[i].InnerXml);
-                var res = Coordinate.AddPoint(coordinates);
-                elemList[i].InnerXml = res.Select(x => x.ToString()).Aggregate("", (current, next) => current + " " + next);
-            }
-
-            string newPath = path.Substring(0, path.Length - 4) + "-update" + path.Substring(path.Length - 4);
-            if (Coordinate.GetError().Count() == 0)
-            {
-                kml.Save(newPath);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"Added {newPath}");
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"no height titles for\n\t{path}");
-                foreach (var item in Coordinate.GetError())
-                {
+                case SystemMessageType.Ok:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case SystemMessageType.Warning:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case SystemMessageType.Error:
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"\tsrtm\\{item}");
-                    //Process.Start("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "https://srtm.kurviger.de/SRTM3/Eurasia/" + item + ".zip");
-                }
-                Console.ResetColor();
+                    break;
             }
+            Console.WriteLine(message);
+            Console.ResetColor();
         }
     }
 }

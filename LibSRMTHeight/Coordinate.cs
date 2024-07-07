@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace LibSRMTHeight
 {
-    public class Coordinate
+    internal class Coordinate
     {
         public static double deltaY = 0.001;
         public static double deltaX = 0.001;
@@ -27,7 +26,7 @@ namespace LibSRMTHeight
         }
         static NumberFormatInfo nfi = new NumberFormatInfo() { NumberDecimalSeparator = "." };
 
-        public void GetHeight()
+        public void GetHeight(Action<string, SystemMessageType> printer)
         {
             string key = $"N{(int)Latitude}E{((int)Longitude).ToString("000")}.hgt";
             byte[] value;
@@ -56,46 +55,46 @@ namespace LibSRMTHeight
                 }
                 data.Add(key, value);
             }
-           
+
             int lat = (int)((Latitude - (int)Latitude) * 1201);
             int lon = (int)((Longitude - (int)Longitude) * 1201);
             int pos = ((1201 - lat - 1) * 1201 * 2) + lon * 2;
 
             if (pos < 0 || pos > maxLengthArray)
             {
-                Console.WriteLine("{0} {1}",Latitude, Longitude, "Coordinates out of range.", "coordinates");
+                printer?.Invoke($"{Latitude}, {Longitude}, Coordinates out of range.", SystemMessageType.Error);
                 return;
             }
 
             if ((value[pos] == 0x80) && (value[pos + 1] == 0x00))
             {
-                Console.WriteLine("(value[pos] == 0x80) && (value[pos + 1] == 0x00)");
+                printer?.Invoke($"{Latitude}, {Longitude},(value[pos] == 0x80) && (value[pos + 1] == 0x00)", SystemMessageType.Error);
             }
             Height = (value[pos]) << 8 | value[pos + 1];
-            if(Height == 0)
+            if (Height == 0)
             {
-                Console.WriteLine(0);
+                printer?.Invoke($"{Latitude}, {Longitude},height is 0", SystemMessageType.Error);
             }
         }
 
-        public static IEnumerable<string> GetError()
+        internal static IEnumerable<string> GetError()
         {
             return filesIsNotExist.Select(f => f.Key);
         }
 
-        public static List<Coordinate> AddPoint(List<Coordinate> coordinates)
+        internal static List<Coordinate> AddPoint(List<Coordinate> coordinates, Action<string, SystemMessageType> printer)
         {
             List<Coordinate> result = new List<Coordinate>();
 
             for (int i = 0; i < coordinates.Count - 1; i++)
             {
-                result.AddRange(AddPoint(coordinates[i], coordinates[i + 1]));
+                result.AddRange(AddPoint(coordinates[i], coordinates[i + 1],printer));
             }
             result.Add(coordinates[^1]);
             return result;
         }
 
-        private static List<Coordinate> AddPoint(Coordinate first, Coordinate second)
+        private static List<Coordinate> AddPoint(Coordinate first, Coordinate second, Action<string, SystemMessageType> printer)
         {
             if (first.Latitude == 53.9730629533484)
             {
@@ -119,7 +118,7 @@ namespace LibSRMTHeight
                 for (int i = 0; i < mul - 1; i++)
                 {
                     var cor = new Coordinate() { Latitude = last.Latitude + sepY, Longitude = last.Longitude + sepX };
-                    cor.GetHeight();
+                    cor.GetHeight(printer);
                     last = cor;
                     result.Add(cor);
                 }
