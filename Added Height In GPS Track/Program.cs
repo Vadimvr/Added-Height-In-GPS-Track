@@ -1,4 +1,5 @@
 ﻿using LibSRMTHeight;
+using System.IO;
 namespace Added_Height_In_GPS_Track
 {
     public class Test
@@ -7,17 +8,21 @@ namespace Added_Height_In_GPS_Track
         {
             var allFiles = Directory.GetFiles(AppContext.BaseDirectory)
                 .Where(x => x.Length > 4
-                && x.Substring(x.Length - 4).Equals(".kml", StringComparison.InvariantCultureIgnoreCase) && !x.Contains("update"));
+                &&
+                (x.Substring(x.Length - 4).Equals(".kml", StringComparison.InvariantCultureIgnoreCase)
+                || x.Substring(x.Length - 4).Equals(".kmz", StringComparison.InvariantCultureIgnoreCase))
+                && !x.Contains("update"));
             int i = 0;
             foreach (var file in allFiles)
             {
                 if (file.Substring(file.Length - 4) == ".kml")
                 {
-                    AddHeightInKML.Worker(file, Message);
+                    AddHeightInKML.Worker(file, Message, file.Substring(AppContext.BaseDirectory.Length));
                     i++;
                 }
                 else if (file.Substring(file.Length - 4) == ".kmz")
                 {
+                    AddHeightInKMZ.Worker(file, Message);
                     i++;
                 }
             }

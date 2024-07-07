@@ -4,13 +4,13 @@ namespace LibSRMTHeight
 {
     public class AddHeightInKML
     {
-        public static void Worker(string path, Action<string, SystemMessageType> printer)
+        public static void Worker(string path, Action<string, SystemMessageType> printer, string titleOruxMaps, string addedToName = "-update")
         {
             XmlDocument kml = new XmlDocument();
             kml.Load(path);
             XmlNode newNode = kml.CreateElement("name");
             // oruxmaps track name
-            newNode.InnerXml = $"<![CDATA[{path.Substring(AppContext.BaseDirectory.Length)}]]>";
+            newNode.InnerXml = $"<![CDATA[{titleOruxMaps}]]>";
 
 
             XmlNodeList doc = kml.GetElementsByTagName("Document");
@@ -23,12 +23,12 @@ namespace LibSRMTHeight
             for (int i = 0; i < elemList.Count; i++)
             {
                 if (elemList[i] == null || elemList[i].InnerXml == null) { continue; }
-                List<Coordinate> coordinates = CovertCoordinate.ConvertToDoubleCoordinates(elemList[i].InnerXml,printer);
-                var res = Coordinate.AddPoint(coordinates,printer);
+                List<Coordinate> coordinates = CovertCoordinate.ConvertToDoubleCoordinates(elemList[i].InnerXml, printer);
+                var res = Coordinate.AddPoint(coordinates, printer);
                 elemList[i].InnerXml = res.Select(x => x.ToString()).Aggregate("", (current, next) => current + " " + next);
             }
 
-            string newPath = path.Substring(0, path.Length - 4) + "-update" + path.Substring(path.Length - 4);
+            string newPath = path.Substring(0, path.Length - 4) + addedToName + path.Substring(path.Length - 4);
             if (Coordinate.GetError().Count() == 0)
             {
                 kml.Save(newPath);
@@ -44,11 +44,5 @@ namespace LibSRMTHeight
                 }
             }
         }
-    }
-    public enum SystemMessageType
-    {
-        Ok,
-        Warning,
-        Error
     }
 }
