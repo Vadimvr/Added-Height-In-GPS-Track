@@ -12,4 +12,10 @@
     <ProjectReference Include="..\LibSRMTHeight\LibSRMTHeight.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="srtm\here.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
