@@ -10,4 +10,4 @@ Copy your track to the root of the app.
 If it is missing .hgt with heights the app will issue a message with the name of the file that needs to be downloaded and saved to /'app root'/srtm/. 
 After restarting the application. 
 
-Updated tracks with the name "-update" appear in the root of the program.
+Updated tracks with the name "-update" appear in the root of the app.
