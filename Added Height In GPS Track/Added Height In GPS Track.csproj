@@ -12,8 +12,4 @@
     <ProjectReference Include="..\LibSRMTHeight\LibSRMTHeight.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="srtm\" />
-  </ItemGroup>
-
 </Project>
