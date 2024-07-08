@@ -11,22 +11,20 @@ namespace Added_Height_In_GPS_Track
                 (x.Substring(x.Length - 4).Equals(".kml", StringComparison.InvariantCultureIgnoreCase)
                 || x.Substring(x.Length - 4).Equals(".kmz", StringComparison.InvariantCultureIgnoreCase))
                 && !x.Contains("update"));
-            int i = 0;
+
             foreach (var file in allFiles)
             {
                 if (file.Substring(file.Length - 4) == ".kml")
                 {
                     AddHeightInKML.Worker(file, Message, file.Substring(AppContext.BaseDirectory.Length));
-                    i++;
                 }
                 else if (file.Substring(file.Length - 4) == ".kmz")
                 {
                     AddHeightInKMZ.Worker(file, Message);
-                    i++;
                 }
             }
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine($"added {i}");
+            Console.WriteLine();
             Console.WriteLine("Press enter to exit");
             Console.ReadLine();
         }
