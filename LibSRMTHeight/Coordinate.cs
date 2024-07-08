@@ -68,7 +68,9 @@ namespace LibSRMTHeight
 
             if ((value[pos] == 0x80) && (value[pos + 1] == 0x00))
             {
-                printer?.Invoke($"{Latitude}, {Longitude},(value[pos] == 0x80) && (value[pos + 1] == 0x00)", SystemMessageType.Error);
+                printer?.Invoke($"{Latitude}, {Longitude}, no data for height", SystemMessageType.Error);
+                Height = 0; 
+                return;
             }
             Height = (value[pos]) << 8 | value[pos + 1];
             if (Height == 0)
@@ -88,7 +90,7 @@ namespace LibSRMTHeight
 
             for (int i = 0; i < coordinates.Count - 1; i++)
             {
-                result.AddRange(AddPoint(coordinates[i], coordinates[i + 1],printer));
+                result.AddRange(AddPoint(coordinates[i], coordinates[i + 1], printer));
             }
             result.Add(coordinates[^1]);
             return result;

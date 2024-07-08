@@ -32,14 +32,15 @@ namespace LibSRMTHeight
             if (Coordinate.GetError().Count() == 0)
             {
                 kml.Save(newPath);
-                printer?.Invoke($"Added {newPath}", SystemMessageType.Ok);
+                printer?.Invoke($"Added {titleOruxMaps}", SystemMessageType.Ok);
             }
             else
             {
-                printer?.Invoke($"no height titles for\n\t{path}", SystemMessageType.Warning);
+                printer?.Invoke($"No heights for \n{titleOruxMaps}", SystemMessageType.Warning);
+                printer?.Invoke($"Add the following files to the folder. \\srtm\\  ", SystemMessageType.Warning);
                 foreach (var item in Coordinate.GetError())
                 {
-                    printer?.Invoke($"\tsrtm\\{item}", SystemMessageType.Error);
+                    printer?.Invoke($"\t{item}", SystemMessageType.Error);
                     //Process.Start("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe", "https://srtm.kurviger.de/SRTM3/Eurasia/" + item + ".zip");
                 }
             }

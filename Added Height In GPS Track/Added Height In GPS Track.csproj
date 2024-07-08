@@ -13,18 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="srtm\N53E025.hgt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="srtm\N54E026.hgt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="track.kml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="тест2__20240706_1341.kml">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+    <Folder Include="srtm\" />
   </ItemGroup>
 
 </Project>
